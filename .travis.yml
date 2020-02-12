@@ -8,7 +8,8 @@ before_install:
 deploy:
   provider: script
   script: "cd onfido-java &&
-           mvn clean deploy --settings ../.maven.xml -DskipTests=true -B -U -Prelease -Dgpg.passphrase=$GPG_PASSPHRASE"
+           echo \"no-tty\" >> ~/.gnupg/gpg.conf &&
+           mvn clean deploy --settings ../.maven.xml -DskipTests=true -B -U -Prelease"
   skip_cleanup: true
   on:
     branch: test-release
