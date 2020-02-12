@@ -7,9 +7,8 @@ before_install:
   - echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust --no-tty --batch --yes
 deploy:
   provider: script
-  script: "cp .travis.settings.xml $HOME/.m2/settings.xml &&
-           cd onfido-java &&
-           mvn deploy -P release"
+  script: "cd onfido-java &&
+           mvn clean deploy --settings ../.maven.xml -DskipTests=true -B -U -Prelease"
   skip_cleanup: true
   on:
     branch: test-release
