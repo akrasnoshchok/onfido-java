@@ -10,5 +10,4 @@ deploy:
            mvn deploy -P release"
   skip_cleanup: true
   on:
-    branch: master
-    tags: true
+    branch: test-release
