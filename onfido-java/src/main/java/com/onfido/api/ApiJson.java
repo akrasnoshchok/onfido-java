@@ -72,6 +72,15 @@ public final class ApiJson<T> {
     }
   }
 
+  private static final class StringSanitizeAdapter {
+    public static final String REPLACE_SEQUENCE = "[\n|\r|\t|$|%|!]";
+
+    @FromJson
+    String fromJson(String parameter) {
+      return parameter == null ? null : parameter.replaceAll(REPLACE_SEQUENCE, "");
+    }
+  }
+
   // This is to make lists and maps immutable when they're parsed.
   private static final class ImmutableAdapterFactory implements JsonAdapter.Factory {
     @Override
@@ -108,6 +117,7 @@ public final class ApiJson<T> {
           .add(new OffsetDateTimeAdapter())
           .add(new LocalDateAdapter())
           .add(new ImmutableAdapterFactory())
+          .add(new StringSanitizeAdapter())
           .build();
 
   private final JsonAdapter<T> adapter;
